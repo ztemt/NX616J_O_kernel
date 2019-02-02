@@ -1,0 +1,213 @@
+/*
+ * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&qupv3_se10_i2c {
+	status = "ok";
+	rohm@38 {
+		compatible = "rohm,bh1745";
+		reg = <0x38>;
+		vdd-supply = <&pm8998_l19>;
+		vio-supply = <&pm8998_s4>;
+		bh1745,tp_moudle_count = <3>;
+        bh1745,adc_gain = <2>; /*0->1x, 01->2x,  10->16x gain setting for RGBC measurement*/
+        bh1745,TRANS_VALUE=<2>;/*((1x_temp*160*TRANS/gain)  */
+		/*[module_id] [golden judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		bh1745,cal_data0 = "0","162","500","270","1832","1648","0","0",
+		/*[white judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"184","166","111","531","460","0","0",
+		/*[balck judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		/*"313","1151","1532","5957","8584","0","0",*/
+		//"700","4034","408","12867","13311","0","0",
+		"772","3620","806","11505","10523","0","0", /*modify  2018-7-26 9:31:3 */
+		/*[blue judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"265","547","351","2337","1923","0","0";
+		/*[module_id] [golden judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		bh1745,cal_data1 = "1","242","1565","932","9035","8607","0","0",
+		/*[white judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"189","146","88","598","533","0","0",
+		/*[balck judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		//"1040","1911","310","11509","9976","0","0",
+		"772","3620","806","11505","10523","0","0", /*modify  2018-7-26 9:31:3 */
+		/*[blue judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"265","547","351","2337","1923","0","0";
+		/*[module_id] [golden judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		bh1745,cal_data2 = "2","199","488","274","2283","2068","0","0",
+		/*[white judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"194","216","113","886","821","0","0",
+		/*[balck judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		//"396","2301","547","13243","12687","0","0",
+		"772","3620","806","11505","10523","0","0", /*modify  2018-7-26 9:31:3 */
+		/*[blue judge] r[0] r[1] g[0] g[1] b[0] b[1]*/
+		"265","547","351","2337","1923","0","0";
+	};
+	//add for nubia NX616J second proximity
+	txc@1e {
+		compatible = "txc,pa224";
+		reg = <0x1e>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <119 0x2>; //change ???
+		vdd-supply = <&pm8998_l19>;
+		vio-supply = <&pm8998_s4>;
+		txc,irq-gpio = <&tlmm 119 0x2002>;
+		txc,ps_threshold_low = <30>;
+		txc,ps_threshold_high = <120>;
+		pinctrl-names = "pa224_default","pa224_sleep";
+		pinctrl-0 = <&pa224_default>;
+		pinctrl-1 =<&pa224_sleep>;
+		txc,vdd-always-on = <1>;
+	};
+	//Nubia add sensors end
+};
+/*
+ * Add nubia sensors
+ */
+&qupv3_se10_i2c {
+	status = "ok";
+	ams@49 {
+		compatible = "tmd3702";
+		reg = <0x49>; //x49 for HW, x39 for test chip
+		interrupt-parent = <&tlmm>;
+		interrupts = <120 0>;
+		vdd-supply = <&pm8998_l19>;
+		vio-supply = <&pm8998_s4>;
+		tmd,irq-gpio = <&tlmm 120 0x00>;
+		pinctrl-names = "tmd3702_default","tmd3702_sleep";
+		pinctrl-0 = <&tmd3702_default>;
+		pinctrl-1 = <&tmd3702_sleep>;
+		tmd,power_always_on = <1>;
+	//	tmd,has_als = <1>;
+		tmd,has_ps = <1>;
+		tmd,tp_moudle_count = <3>;
+		//[module_id] [which_seg] [d_factor] ch0[1] ch1[0] ch0[1] ch1[0]
+		tmd,tp0 = "0","0","652","1000","142","874","99";
+		//[module_id] [which_seg] [d_factor] ch0[1] ch1[0] ch0[1] ch1[0]
+		tmd,tp1 = "1","1","652","1000","142","874","99";
+		//[module_id] [which_seg] [d_factor] ch0[1] ch1[0] ch0[1] ch1[0]
+		tmd,tp2 = "2","0","652","1000","142","874","99";
+		prox_name      = "tmd3702-prox";
+        als_name       = "tmd3702-als";
+
+	    persist        = <0xF2>;
+        prox_th_min    = <40>;	//1000
+        prox_th_max    = <60>;	//6500
+        prox_pulse_cnt = <32>;	 //4
+        prox_apc       = <1>;    // 0 -> APC enabled  1-->APC disable 	//0
+        prox_pulse_len = <2>;		//3
+        prox_pulse_16x = <0>;
+        prox_gain      = <0>;		//2
+        poffset        = <0>;
+        prox_drive     = <0x06>;		//0
+        als_gain       = <7>;			//5
+        als_deltap     = <10>;
+        als_time       = <18>;		//50
+/* Promblem Number: PR000     Author:xuxiaohua,   Date:2018/6/21
+   Description    : add tmd3702 light register paramater */
+        dgf            = <806>;    //<1195>;		//833
+        ct_coef        = <5819>;   //<5302>;		//7245
+        ct_offset      = <1643>;    //<1673>;		//1605
+        c_coef         = <1150>;   //<1120>;		//110
+        r_coef         = <(-880)>;  //<(-1330)>;		//-100
+        g_coef         = <2550>;    //<4470>;		//290
+        b_coef         = <(-2850)>; //<(-3890)>;	//-270
+        coef_scale     = <1000>;
+
+	};
+};
+
+&tlmm {
+	tmd3702_int_pin {
+		tmd3702_default: tmd3702_default {
+			config {
+				pins = "gpio120";
+				drive-strength = <6>;
+				bias-pull-up;
+			};
+		};
+		tmd3702_sleep: tmd3702_sleep {
+			config {
+				pins = "gpio120";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+	};
+	//Nubia add sensors begin
+	pa224_int {
+		pa224_default: pa224_default{
+			mux {
+				pins = "gpio119";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio119";
+				drive-strength = <6>;
+				bias-pull-up;
+			};
+		};
+		pa224_sleep: pa224_sleep{
+			mux {
+				pins = "gpio119";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio119";
+				drive-strength = <6>;
+				bias-high-impedance;
+			};
+		};
+	};
+};
+/*****finger pinctrl start *****/
+&tlmm {
+	hall_int_0_pin{
+		hall_int_0_default: hall_int_0_default {
+			 mux {
+					pins = "gpio123","gpio124";
+					function = "gpio";
+				};
+			config {
+				pins="gpio123","gpio124";
+				drive-strength = <6>;
+				bias-pull-up;
+				};
+		};
+		hall_int_0_sleep: hall_int_0_sleep {
+			 mux {
+					pins = "gpio123","gpio124";
+					function = "gpio";
+				};
+			config{
+				pins= "gpio123","gpio124";
+				drive-strength = <6>;
+				bias-high-impedance;
+				};
+		};
+
+	};
+};
+
+&soc {
+	hall_device_out {
+		compatible = "nubia,hall_device";
+		status = "okay";
+		pinctrl-names = "hall_default","hall_sleep";
+		pinctrl-0 = <&hall_int_0_default >;
+		pinctrl-1 = <&hall_int_0_sleep >;
+		vdd-supply = <&pm8998_lvs2>;////check list vdd lvds
+		interrupt-parent = <&tlmm>;
+		hall_device,hw_device_count = <2>;
+		hall_device,irq-gpio-0 = <&tlmm 124 0x2002>;
+		hall_device,irq-gpio-1 = <&tlmm 123 0x2002>;
+	};
+};
+

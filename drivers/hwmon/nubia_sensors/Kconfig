@@ -1,0 +1,81 @@
+################################################# SENROS START
+menuconfig NUBIA_SENSORS
+	tristate "NUBIA SENSORS ON"
+	default n
+	help
+		nubia sensor
+if NUBIA_SENSORS
+config FEATURE_NUBIA_SENSORS_LOG_ON
+	tristate "NUBIA SENSORS LOG ON"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		If you want to enable the sensor log,
+
+################################################# RGB START
+config NUBIA_SENSORS_RGB_BH1745
+	tristate "support rgb bh1745 driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia rgb device
+################################################# HALL START
+config NUBIA_SENSORS_HALL_DEVICE
+	tristate "hall devicedriver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+	  If you say yes here you get support for
+	  hall device
+################################################# AMS START
+config NUBIA_SENSORS_TMD3702
+	tristate "support litehole light/prox sensor driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia ambient&&prox device of tmd3702
+################################################# OPTICAL_KEY_LEFT START
+config NUBIA_SENSORS_OPTICAL_KEY_LEFT
+	tristate "support optical key left pa224 driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia device of optical key left
+
+################################################# OPTICAL_KEY_RIGHT START
+config NUBIA_SENSORS_OPTICAL_KEY_RIGHT
+	tristate "support optical key right pa224 driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia device of optical key right
+################################################# VIRTUAL_PROXIMITY
+config NUBIA_VIRTUAL_PROXIMITY
+	tristate "support virtual proximity driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia device of virtual proximity
+################################################# PROX_PA224
+config NUBIA_SENSORS_PROX_PA224
+	tristate "support litehole prox sensor driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia prox device
+################################################# AMS START
+config NUBIA_SENSORS_TMD2725
+	tristate "support litehole light/prox sensor driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia ambient&&prox device of tmd2725
+################################################# DOUBLE_PROXIMITY
+config NUBIA_DOUBLE_PROXIMITY
+	tristate "support double proximity driver"
+	depends on NUBIA_SENSORS
+	default n
+	help
+		nubia device of double proximity
+
+endif

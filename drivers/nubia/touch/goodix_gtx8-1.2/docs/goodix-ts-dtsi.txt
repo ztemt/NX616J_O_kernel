@@ -1,0 +1,81 @@
+* devicetree binding for Goodix touchdriver
+
+Required properties:
+- compatible: device & driver matching.
+	* for Normandy series touch device: "goodix,gt9889"
+
+- reg: i2c client address, value can be 0x14 or 0x5d. please refer to datasheet.
+- vtouch-supply: power supply for the touch device.
+- pinctrl-names: pinctrl configuration.
+- pinctrl-x: pinctrl configuration.
+- goodix,reset-gpio: reset gpio.
+- goodix,irq-gpio: interrupt gpio. 
+- goodix,irq-flags: irq trigger type config, value should be:
+                       1 - rising edge,
+                       2 - falling edge,
+                       4 - high level,
+                       5 - low level.
+- goodix,panel-max-id: panel max touch number.
+- goodix,panel-max-x: max resolution of x direction.
+- goodix,panel-max-y: max resolution of y direction.
+- goodix,panel-max-w: panel max width value.
+- goodix,panel-max-p: panel max pressure value.
+
+Child node is optional, each child node contains properties that is different from sensors.
+For each child node:
+- normal-cfg: touch device normal config data.
+
+Optional properties:
+
+- interrupt-parent: this property cooperate with interrupts specified the
+		   interrupt line device used.
+- interrupts: if you don't set this property, we will get
+	      the irq number by irq-gpios.
+- vtouch-supply: power control regulator
+- pinctrl-names: it should be "pmx_ts_active","pmx_ts_suspend";
+- pinctrl-0:	 it should be  <&ts_int_active &ts_reset_active>;
+- pinctrl-1:	 it should be  <&ts_int_suspend &ts_reset_suspend>;
+- goodix,swap-axis: swap  x/y axis coordinates.
+- goodix,x2x: change x axis direction.
+- goodix,y2y: change y axis direction.
+- goodix,panel-key-map: touchscreen key value of screen. /*KEY_HOMEPAGE, KEY_BACK*/
+- goodix,pen-enable: enable pen support
+- goodix,key-of-pen: define key value of pen.
+- goodix,power-on-delay-us: delay time after IC power on, only need when you use
+		     a LCO control the IC power.
+- goodix,power-off-delay-us: delay time after IC power off, only need when you use
+		     a LCO control the IC power.
+
+
+Example:
+normandy-i2c@5d {
+            compatible = "goodix,gt9889";
+            reg = <0x5d>;
+            status = "ok";
+            interrupt-parent = <&msm_gpio>;
+			interrupts = <13 0x2800>;
+            vtouch-supply = <&pm8916_l15>;
+            pinctrl-names = "pmx_ts_active","pmx_ts_suspend";
+            pinctrl-0 = <&ts_int_active &ts_reset_active>;
+            pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
+			goodix,reset-gpio = <&msm_gpio 115 0x0>;
+            goodix,irq-gpio = <&msm_gpio 13 0x2800>;
+			goodix,irq-flags = <2>; /* 1:trigger rising, 2:trigger falling;*/
+            goodix,panel-max-id = <10>;
+            goodix,panel-max-x = <720>;
+            goodix,panel-max-y = <1280>;
+            goodix,panel-max-w = <512>;
+            goodix,panel-max-p = <512>;
+			goodix,panel-key-map = <158 172 217>; /*KEY_BACK, KEY_HOMEPAGE, KEY_SEARCH*/
+			goodix,power-on-delay-us = <300000>; /*300ms*/
+			goodix,power-off-delay-us = <5000>;
+			/*goodix,swap-axis;*/
+			goodix,x2x;
+			goodix,y2y;
+			goodix,pen-enable;
+			goodix,key-of-pen = <331 332>;/*BTN_STYLUS, BTN_STYLUS2*/
+			sensor0 {
+				normal-cfg = [ 
+				];
+			};
+		};

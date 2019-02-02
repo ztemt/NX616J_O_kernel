@@ -1,0 +1,225 @@
+/*
+ * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+ 
+/*****leds start *****/
+
+&pmi8998_gpios {
+
+	gpio5_dig_out {
+		gpio5_dig_out_default: gpio5_dig_out_default {
+		pins = "gpio5"; /* GPIO 16 */
+		function = "normal"; /* normal output */
+		power-source = <0>; /* VIN0 */
+		output-low; /* digital output, no invert */
+		input-disable; /* prevent GPIO from being set to DIO */
+		};
+	};
+};
+&spmi_bus {	
+	pmi8998_lsid2_sensor:qcom,pmi8998@3{
+		pmi8998_pwm_1: pwm@b100 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb100 0x100>,
+			      <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+				    "qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <1>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <0>;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pmi8998_pwm_2: pwm@b200 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb200 0x100>,
+				  <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+						"qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <2>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <1>;
+			qcom,force-pwm-size = <9>;
+			qcom,mode-select = <0>; /* PWM */
+			qcom,period = <100000>;
+			#pwm-cells = <2>;
+			status = "okay";
+			qcom,pwm {
+				qcom,duty = <50000>;
+				label = "pwm";
+			};
+	    };
+
+		pmi8998_pwm_3: pwm@b300 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb300 0x100>,
+			      <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+				    "qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <3>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <2>;
+			#pwm-cells = <2>;
+		};
+
+		pmi8998_pwm_4: pwm@b400 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb400 0x100>,
+			      <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+				    "qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <4>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <3>;
+			#pwm-cells = <2>;
+		};
+
+		pmi8998_pwm_5: pwm@b500 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb500 0x100>,
+			      <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+				    "qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <5>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <4>;
+			#pwm-cells = <2>;
+		};
+
+		pmi8998_pwm_6: pwm@b600 {
+			compatible = "qcom,qpnp-pwm";
+			reg = <0xb600 0x100>,
+			      <0xb042 0x7e>;
+			reg-names = "qpnp-lpg-channel-base",
+				    "qpnp-lpg-lut-base";
+			qcom,lpg-lut-size = <0x7e>;
+			qcom,channel-id = <6>;
+			qcom,supported-sizes = <6>, <9>;
+			qcom,ramp-index = <5>;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+		
+		nubia_leds_sensor:qcom,leds@d000 {
+			compatible = "qcom,leds-qpnp";
+			reg = <0xd000 0x100>;
+			label = "rgb";
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&gpio5_dig_out_default>;
+			test-gpios = <&pmi8998_gpios 5 GPIO_ACTIVE_LOW>;
+			red_led_sensor: qcom,rgb_0 {
+				label = "rgb";
+				qcom,id = <3>;
+				qcom,mode = "lpg";
+				pwms = <&pmi8998_pwm_5 0 0>;
+				qcom,pwm-us = <1000>;
+				qcom,start-idx = <0>;
+				qcom,idx-len = <63>;
+				qcom,duty-pcts= [02 04 06 08 09 0a 0c 0e 10 11 12 14 16 18 19 1a 1b 1c 1e 20 22 24 26 28
+					19 2a 2c 2e 2f 30 32 34 36 38 39 3a 3b 3c 3d 3e 40 42 44 46 48 49 4a 4b 4c 4e 50 52 54 56 58 59 5a 5b 5c 5e 60 62 64];
+				qcom,lut-flags = <27>;
+				qcom,pause-lo = <0>;
+				qcom,pause-hi = <0>;
+				qcom,ramp-step-ms = <200>;
+				qcom,max-current = <12>;
+				qcom,is_auto_breath = <1>;
+				qcom,led_channel = <0x30>;
+				qcom,default-state = "off";
+				linux,name = "nubia_led";
+				nubia,grade_percentage = <100>;
+				nubia,grade_scale_offset = <255> ;
+				nubia,fade_time = <3>;
+				nubia,fullon_time = <0>;
+				nubia,fulloff_time = <4>;
+				nubia,onceblink_max_grade = <70>;
+				nubia,autoblink_max_grade = <100>;
+				qcom,in-order-command-processing;
+				linux,default-trigger = "none";
+			};
+
+			green_led_sensor: qcom,rgb_1 {
+				label = "rgb";
+				qcom,id = <4>;
+				qcom,mode = "lpg";
+				pwms = <&pmi8998_pwm_4 0 0>;
+				qcom,pwm-us = <1000>;
+				qcom,start-idx = <0>;
+				qcom,idx-len = <63>;
+				qcom,duty-pcts= [02 04 06 08 09 0a 0c 0e 10 11 12 14 16 18 19 1a 1b 1c 1e 20 22 24 26 28
+					19 2a 2c 2e 2f 30 32 34 36 38 39 3a 3b 3c 3d 3e 40 42 44 46 48 49 4a 4b 4c 4e 50 52 54 56 58 59 5a 5b 5c 5e 60 62 64];
+				qcom,lut-flags = <27>;
+				qcom,pause-lo = <0>;
+				qcom,pause-hi = <0>;
+				qcom,ramp-step-ms = <200>;
+				qcom,max-current = <12>;
+				qcom,is_auto_breath = <1>;
+				qcom,led_channel = <0x40>;
+				qcom,default-state = "off";
+				linux,name = "green";
+				nubia,grade_percentage = <100>;
+				nubia,grade_scale_offset = <10> ;
+				nubia,fade_time = <3>;
+				nubia,fullon_time = <0>;
+				nubia,fulloff_time = <4>;
+				nubia,onceblink_max_grade = <70>;
+				nubia,autoblink_max_grade = <100>;
+				qcom,in-order-command-processing;
+				linux,default-trigger = "none";
+			};
+
+			blue_led_sensor: qcom,rgb_2 {
+				label = "rgb";
+				qcom,id = <5>;
+				qcom,mode = "lpg";
+				pwms = <&pmi8998_pwm_3 0 0>;
+				qcom,pwm-us = <1000>;
+				qcom,start-idx = <0>;
+				qcom,idx-len = <63>;
+				qcom,duty-pcts= [02 04 06 08 09 0a 0c 0e 10 11 12 14 16 18 19 1a 1b 1c 1e 20 22 24 26 28
+					19 2a 2c 2e 2f 30 32 34 36 38 39 3a 3b 3c 3d 3e 40 42 44 46 48 49 4a 4b 4c 4e 50 52 54 56 58 59 5a 5b 5c 5e 60 62 64];
+				qcom,lut-flags = <27>;
+				qcom,pause-lo = <0>;
+				qcom,pause-hi = <0>;
+				qcom,ramp-step-ms = <200>;
+				qcom,default-state = "off";
+				qcom,max-current = <12>;
+				qcom,is_auto_breath = <1>;
+				qcom,led_channel = <0x50>;
+				linux,name = "blue";
+				linux,default-trigger = "none";
+				nubia,grade_percentage = <30>;
+				nubia,grade_scale_offset = <100> ;
+				nubia,fade_time = <3>;
+				nubia,fullon_time = <0>;
+				nubia,fulloff_time = <4>;
+				nubia,onceblink_max_grade = <70>;
+				nubia,autoblink_max_grade = <100>;
+				qcom,in-order-command-processing;
+				//linux,default-trigger = "none";
+			};
+
+			
+
+		};//end of nubia_leds_sensor:qcom,leds@d000
+		
+		
+		
+	};//end of pmi8998_lsid2_sensor:qcom,pmi8998@3
+
+};//end of &spmi_bus

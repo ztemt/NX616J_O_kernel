@@ -1,0 +1,8 @@
+config NUBIA_SENSORS_FP_GF5288_LEFT
+	tristate "nubia sensors fp gf5288"
+	depends on NUBIA_SENSORS_FP
+	default n
+	help
+	  This is the main file for fingerprint driver for gf5288.
+	  Say Y here if you have a gf5216m fingerprint connected
+	  to your system.

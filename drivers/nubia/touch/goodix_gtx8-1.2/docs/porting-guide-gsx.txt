@@ -1,0 +1,37 @@
+Goodixi GS系列触控IC驱动移植指南
+=================================
+
+0. 驱动文件结构
+---------------
+	goodix_ts_core.c : Core Layer，负责power/interrupt/gpio/pinctrl/input等
+					资源的初始化工作，事件调度、外部功能模块管理等功能。
+	goodix_ts_core.h : Core Layer的头文件，驱动中的各种数据结构定义与此。
+	goodix_ts_i2c.c : Hardware Layer，实现了与GS系列IC的I2C总线通讯接口，硬件
+					初始化、坐标解析、休眠唤醒等功能。
+	goodix_cfg_bin.c : 该文件实现了对IC配置文件的读取、解析及IC的初始化工作。
+	goodix_cfg_bin.h : 该文件定义了IC配置信息文件的读取和解析过程中所涉及的主
+					要数据结构，函数以及一些公共头文件声明信息。
+	goodix_gtx8_update.c : IC固件在线升级功能模块。
+	goodix_ts_gesture.c ：IC手势唤醒功能模块。
+	goodix_ts_tools.c : 测试/调试工具接口。
+	goodix-ts-dtsi.txt ： devicetree配置指导文档。
+	Kconfig，Makefile : 编译相关的文件。
+
+1. 移植步骤
+-----------
+
+0) 复制驱动文件，将驱动包解压到
+		path-to-your-kern/driver/input/touchscreen/goodix_gtx8
+
+1) 修改Makefile以及Kconfig
+	将Makefile、Kconfig文件的路径添加到上一层Makefile、Kconfig文件中。
+
+3) 参照《goodix-ts-dtsi.txt》配置devicetree文件。
+
+4) make menuconfig或者make config、make xconfig配置goodix_gsx驱动的编译项。
+
+5) make
+
+
+
+

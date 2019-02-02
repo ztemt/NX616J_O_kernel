@@ -1,0 +1,101 @@
+/*
+ * nubia overwrite dts
+ */
+
+&spmi_bus {
+	qcom,pm8998@0 {
+		qcom,power-on@800 {
+			qcom,pon_1 {
+				qcom,support-reset = <1>;
+                                qcom,s1-timer = <10256>;
+                                qcom,s2-timer = <2000>;
+                                qcom,s2-type = <7>;
+			};
+		};
+	};
+};
+
+&soc {
+	nubia_hw_ver_gpio: nubia_hw_gpio_ctrl {
+		compatible = "nubia_hw_gpio_ctrl";
+		qcom,pcb-gpio1 = <&tlmm 90 0x00>;
+		qcom,pcb-gpio2 = <&tlmm 91 0x00>;
+		qcom,rf-gpio1 = <&tlmm 92 0x00>;
+		qcom,rf-gpio2 = <&tlmm 93 0x00>;
+		qcom,config-gpio1 = <&tlmm 44 0x00>;
+		qcom,config-gpio2 = <&tlmm 50 0x00>;
+		pinctrl-names = "pull_up_default","pull_down_default";
+		pinctrl-0 = <&nubia_gpio_default>;
+		pinctrl-1 = <&nubia_gpio_pulldown>;
+	};
+
+        keyreset {
+                compatible = "nubia,keyreset";
+                keys-down = <0x73 0x72>;
+                keys-up = <0x73 0x72>;
+                keyreset-need-panic;
+                key_down_delay = <20>;
+        };
+
+};
+&tlmm {
+	nubia_gpio {
+		nubia_gpio_default: nubia_gpio_default {
+			mux {
+				pins = "gpio44", "gpio50", "gpio90", "gpio91", "gpio92", "gpio93";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio44", "gpio50", "gpio90", "gpio91", "gpio92", "gpio93";
+				driver-strength = <2>; /* 2mA */
+				bias-pull-up;
+				input-enable;
+			};
+		};
+
+		nubia_gpio_pulldown: nubia_gpio_pulldown {
+			mux {
+				pins = "gpio44", "gpio50", "gpio90", "gpio91", "gpio92", "gpio93";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio44", "gpio50", "gpio90", "gpio91", "gpio92", "gpio93";
+				driver-strength = <2>; /* 2mA */
+				bias-pull-down;
+				input-enable;
+			};
+		};
+	};
+};
+
+
+/* pstore mem*/
+/ {
+	reserved-memory {
+		pstore_reserve_mem: pstore_reserve_mem_region@0 {
+			linux,reserve-contiguous-region;
+			linux,reserve-region;
+			linux,remove-completely;
+			reg = <0x0 0xAff00000 0x0 0x00100000>;
+			label = "pstore_reserve_mem";
+		};
+	};
+};
+
+&wdog {
+	qcom,bark-time = <20000>;
+	qcom,pet-time = <15000>;
+};
+
+&low_soc {
+        temperature = <5>;
+};
+&dsi_nubia_boe_himax_cmd_display {
+	qcom,dsi-display-active;
+};
+&pmi8998_wled {
+       qcom,fs-curr-ua = <17500>;
+       qcom,en-cabc;
+ };
+
+

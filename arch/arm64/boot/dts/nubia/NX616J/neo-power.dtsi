@@ -1,0 +1,32 @@
+&mtp_batterydata {
+	qcom,batt-id-range-pct = <15>;
+	#include "fg-gen3-batterydata-atl-3800mah.dtsi"
+};
+
+&pmi8998_charger {
+	qcom,usb-audio-select-support;
+	qcom,switch-en-gpio = <&tlmm 49 0>;
+	qcom,mbhc-int-gpio = <&tlmm 24 0>;
+	qcom,switch-select-gpio = <&tlmm 43 0>;
+
+	qcom,fcc-max-ua = <2550000>;
+	qcom,fv-max-uv = <4400000>;
+	qcom,usb-icl-ua = <2000000>;
+};
+
+&pmi8998_fg {
+	qcom,fg-recharge-soc-thr = <99>;
+	qcom,fg-recharge-voltage = <4340>;
+	qcom,battery-thermal-coefficients = [cc 50 ff];
+	qcom,fg-jeita-thresholds = <0 15 44 50>;
+	qcom,fg-jeita-hyst-temp = <2>;
+	qcom,fg-chg-term-current = <150>;
+	qcom,fg-sys-term-current = <(-250)>;
+	qcom,fg-force-load-profile;
+	qcom,hold-soc-while-full;
+	qcom,cycle-counter-en;
+};
+
+&smb1355_charger_1 {
+	qcom,parallel-mode = <3>;
+};

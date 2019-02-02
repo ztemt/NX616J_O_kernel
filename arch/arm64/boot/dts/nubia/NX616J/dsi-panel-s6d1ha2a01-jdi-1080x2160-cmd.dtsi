@@ -1,0 +1,123 @@
+/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&mdss_mdp {
+	dsi_nubia_jdi_s6d1ha2a01_cmd: qcom,mdss_dsi_s6d1ha2a01_cmd_jdi {
+		qcom,mdss-dsi-panel-name =
+			"s6d1ha2a01 cmd mode dsi jdi panel";
+		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+		qcom,mdss-dsi-virtual-channel-id = <0>;
+		qcom,mdss-dsi-stream = <0>;
+		qcom,mdss-pan-physical-width-dimension = <68>;
+		qcom,mdss-pan-physical-height-dimension = <136>;
+		qcom,mdss-dsi-bpp = <24>;
+		qcom,mdss-dsi-color-order = "rgb_swap_rgb";
+		qcom,mdss-dsi-underflow-color = <0xff>;
+		qcom,mdss-dsi-border-color = <0>;
+		qcom,mdss-dsi-panel-hdr-enabled;
+		qcom,mdss-dsi-panel-hdr-color-primaries = <14500 15500 32000
+			17000 15500 30000 8000 3000>;
+		qcom,mdss-dsi-panel-peak-brightness = <4200000>;
+		qcom,mdss-dsi-panel-blackness-level = <3230>;
+		qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
+		qcom,mdss-dsi-bllp-eof-power-mode;
+		qcom,mdss-dsi-bllp-power-mode;
+		qcom,mdss-dsi-lane-0-state;
+		qcom,mdss-dsi-lane-1-state;
+		qcom,mdss-dsi-lane-2-state;
+		qcom,mdss-dsi-lane-3-state;
+		qcom,mdss-dsi-dma-trigger = "trigger_sw";
+		qcom,mdss-dsi-mdp-trigger = "none";
+		qcom,mdss-dsi-reset-sequence = <0 11>, <1 11>, <0 11>, <1 11>;
+		qcom,adjust-timer-wakeup-ms = <1>;
+		qcom,mdss-dsi-te-pin-select = <1>;
+		qcom,mdss-dsi-wr-mem-start = <0x2c>;
+		qcom,mdss-dsi-wr-mem-continue = <0x3c>;
+		qcom,mdss-dsi-te-dcs-command = <1>;
+		qcom,mdss-dsi-te-check-enable;
+		qcom,mdss-dsi-te-using-te-pin;
+
+		qcom,mdss-dsi-display-timings {
+			timing@0{
+				qcom,mdss-dsi-panel-framerate = <60>;
+				qcom,mdss-dsi-panel-width = <1080>;
+				qcom,mdss-dsi-panel-height = <2160>;
+				qcom,mdss-dsi-h-front-porch = <40>;
+				qcom,mdss-dsi-h-back-porch = <92>;
+				qcom,mdss-dsi-h-pulse-width = <8>;
+				qcom,mdss-dsi-h-sync-skew = <0>;
+				qcom,mdss-dsi-v-back-porch = <3>;
+				qcom,mdss-dsi-v-front-porch = <4>;
+				qcom,mdss-dsi-v-pulse-width = <1>;
+				qcom,mdss-dsi-h-left-border = <0>;
+				qcom,mdss-dsi-h-right-border = <0>;
+				qcom,mdss-dsi-v-top-border = <0>;
+				qcom,mdss-dsi-v-bottom-border = <0>;
+				qcom,mdss-dsi-panel-jitter = <0x1 0x1>;
+				qcom,mdss-dsi-on-command = [
+				15 01 00 00 00 00 02 35 00
+				39 01 00 00 00 00 05 2a 00 00 04 37
+				39 01 00 00 00 00 05 2b 00 00 08 6f
+				39 01 00 00 00 00 03 51 0f ff
+				15 01 00 00 00 00 02 53 24
+				29 01 00 00 00 00 03 F0 5A 5A
+				29 01 00 00 00 00 03 F1 5A 5A
+				29 01 00 00 00 00 03 FC 5A 5A
+				29 01 00 00 00 00 3d E8 5E 7F 02 04 07 09 12 1C 16 13 55 3E 54 6D 7E 94 35 47 61 73 40 7F 05 0A 0E 13 21 30 33 34 76 5E 70 80 8F A2 3E 4D 64 74 00 7F 10 1F 2C 36 4D 67 6C 6D A9 8C 95 9C A7 B6 4B 57 69 76
+				29 01 00 00 00 00 3d E9 5E 7F 02 04 07 09 12 1C 16 13 55 3E 54 6D 7E 94 35 47 61 73 40 7F 05 0A 0E 13 21 30 33 34 76 5E 70 80 8F A2 3E 4D 64 74 00 7F 10 1F 2C 36 4D 67 6C 6D A9 8C 95 9C A7 B6 4B 57 69 76
+				23 01 00 00 00 00 02 D0 08
+				29 01 00 00 00 00 03 F0 A5 A5
+				29 01 00 00 00 00 03 F1 A5 A5
+				29 01 00 00 00 00 03 FC A5 A5
+				39 01 00 00 00 00 03 f0 5a 5a
+				39 01 00 00 00 00 03 fc 5a 5a
+				39 01 00 00 00 00 05 2a 00 00 04 37
+				39 01 00 00 28 00 05 2b 00 00 08 6f
+				39 01 00 00 00 00 03 44 08 00
+				05 01 00 00 78 00 01 11
+				39 01 00 00 00 00 1e BE 02 CC CC CC 65 43 21 01 0C 0D 0E 0F 05 0B 1C 1C 1C 1C 1C 1C 07 1C 05 0F 0E 0D 0C 03 00
+				39 01 00 00 00 00 3a BD 78 00 05 14 B5 10 02 80 00 00 01 09 1C 00 22 45 41 40 68 00 00 18 40 02 2A 00 00 02 00 05 37 00 05 18 18 00 00 20 00 00 00 00 00 00 01 00 10 00 35 06 06 1B 00 00 10 80 80
+				39 01 00 00 00 00 01 2c
+				];
+				qcom,mdss-dsi-post-panel-on-command = [
+				05 01 00 00 00 00 01 29
+				15 01 00 00 00 00 02 35 00
+				];
+				qcom,mdss-dsi-off-command = [
+				05 01 00 00 28 00 01 28
+				05 01 00 00 78 00 01 10];
+
+				nuiba,mdss-dsi-cabc-command-cabc-off = [
+				15 01 00 00 00 00 02 53 24
+                                15 01 00 00 00 00 02 55 00];
+                                nuiba,mdss-dsi-cabc-command-cabc-level1 = [
+				15 01 00 00 00 00 02 53 2c
+                                15 01 00 00 00 00 02 55 01];
+                                nuiba,mdss-dsi-cabc-command-cabc-level2 = [
+				15 01 00 00 00 00 02 53 2c
+                                15 01 00 00 00 00 02 55 02];
+                                nuiba,mdss-dsi-cabc-command-cabc-level3 = [
+				15 01 00 00 00 00 02 53 2c
+                                15 01 00 00 00 00 02 55 03];
+
+				nuiba,mdss-dsi-cabc-command-cabc-off-state = "dsi_hs_mode";
+				nuiba,mdss-dsi-cabc-command-cabc-off-level1 = "dsi_hs_mode";
+				nuiba,mdss-dsi-cabc-command-cabc-off-level2 = "dsi_hs_mode";
+				nuiba,mdss-dsi-cabc-command-cabc-off-level3 = "dsi_hs_mode";
+
+				qcom,mdss-dsi-on-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-h-sync-pulse = <0>;
+			};
+		};
+	};
+};

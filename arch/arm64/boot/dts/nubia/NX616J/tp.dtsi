@@ -1,0 +1,120 @@
+/*
+ * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&qupv3_se14_i2c {
+	status = "ok";
+	himax-ts@48 {
+		status = "okay";
+		compatible = "himax,hxcommon";
+		reg = <0x48>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <125 0x02>;
+		himax,panel-coords = <0 1080 0 2280>;
+		himax,display-coords = <0 1080 0 2280>;
+		himax,rst-gpio = <&tlmm 99 0x00>;
+		himax,irq-gpio = <&tlmm 125 0x00>;
+		report_type = <1>;
+	};
+};
+&qupv3_se0_i2c {
+	status = "ok";
+	gtx8_touch@5d {
+		compatible = "goodix,gt9889";
+		reg = <0x5d>;
+		status = "ok";
+		interrupt-parent = <&tlmm>;
+		interrupts = <128 0x2800>;
+		vtouch-supply = <&pm8998_l28>;
+		pinctrl-names = "pmx_ts_active","pmx_ts_suspend";
+		pinctrl-0 = <&ts_int_active &ts_reset_active>;
+		pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
+		goodix,reset-gpio = <&tlmm 104 0x0>;
+		goodix,irq-gpio = <&tlmm 128 0x2800>;
+		goodix,irq-flags = <2>; /* 1:trigger rising, 2:trigger falling;*/
+		goodix,panel-max-id = <10>;
+		goodix,panel-max-x = <1080>;
+		goodix,panel-max-y = <2280>;
+		goodix,panel-max-w = <512>;
+		goodix,panel-max-p = <512>;
+		goodix,power-on-delay-us = <300000>; /*300ms*/
+		goodix,power-off-delay-us = <5000>;
+		goodix,pen-enable;
+		goodix,key-of-pen = <331 332>;/*BTN_STYLUS, BTN_STYLUS2*/
+		sensor0 {
+			normal-cfg = [
+			];
+		};
+	};
+};
+
+
+/*****finger pinctrl start *****/
+&tlmm {
+	//nubia touch screen pinctrl
+	nubia_goodix_int {
+		ts_int_active: ts_int_active {
+			mux {
+				pins = "gpio128";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio128";
+				drive-strength = <16>;
+				bias-pull-up;
+			};
+		};
+
+		ts_int_suspend: ts_int_suspend {
+			mux {
+				pins = "gpio128";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio128";
+				drive-strength = <16>;
+				bias-pull-down;
+			};
+		};
+	};
+
+	//nubia touch screen pinctrl
+	nubia_goodix_reset {
+		ts_reset_active: ts_reset_active {
+			mux {
+				pins = "gpio104";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio104";
+				drive-strength = <16>;
+				bias-pull-up;
+			};
+		};
+
+		ts_reset_suspend: ts_reset_suspend {
+			mux {
+				pins = "gpio104";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio104";
+				drive-strength = <16>;
+				bias-pull-down;
+			};
+		};
+	};
+};

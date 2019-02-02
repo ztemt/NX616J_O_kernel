@@ -1,0 +1,26 @@
+#
+# MSM camera configuration
+#
+
+comment "Qualcomm Technologies, Inc. MSM Camera And Video"
+
+menuconfig SPECTRA_CAMERA
+    bool "Qualcomm Technologies, Inc. Spectra camera and video capture support"
+    depends on ARCH_QCOM && VIDEO_V4L2 && I2C
+    ---help---
+      Say Y here to enable selecting the video adapters for
+      Qualcomm Technologies, Inc. Spectra camera and video capture.
+      Enabling this adds support for the camera driver stack including sensor,
+      IFE and postprocessing drivers.
+
+config NUBIA_CAMERA_DUAL_CAMERA_IMX519
+    bool "nubia enable dualcamera imx519"
+    default n
+    help
+        NX616 imx519 eeprom dualcamera cal addr is different from imx499
+		  
+source "drivers/media/platform/msm/vidc/Kconfig"
+
+source "drivers/media/platform/msm/sde/Kconfig"
+source "drivers/media/platform/msm/dvb/Kconfig"
+source "drivers/media/platform/msm/broadcast/Kconfig"

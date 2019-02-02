@@ -1,0 +1,15 @@
+config  NUBIA_TOUCH_GOODIX
+	tristate "NUBIA GOODIX DEVICE"
+	default n
+
+config NUBIA_TOUCHSCREEN_HXCHIPSET
+	tristate "NUBIA HIMAX DEVICE"
+	default n
+	
+if NUBIA_TOUCH_GOODIX
+source drivers/nubia/touch/goodix_gtx8-1.2/Kconfig
+endif
+
+if NUBIA_TOUCHSCREEN_HXCHIPSET
+source "drivers/nubia/touch/hxchipset/Kconfig"
+endif
